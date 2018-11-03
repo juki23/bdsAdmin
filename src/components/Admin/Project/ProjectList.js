@@ -15,15 +15,15 @@ class ProjectList extends Component {
                                     <tr>
                                         <th>No</th>
                                         <th>Tên dự án</th>
-                                        <th>Chủ đề</th>
-                                        <th>Số điện thoại</th>
+                                        <th>Giá</th>
+                                        <th>Địa chỉ</th>
                                         <th>Năm bàn giao</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.showProjectItem()}
+                                    {this.props.children}
                                 </tbody>
                             </table>
                         </div>
@@ -36,7 +36,7 @@ class ProjectList extends Component {
     showProjectItem = () => {
         var result = [];
         for (var i = 0; i < 10; i++) {
-            result.push(<ProjectItem key={i} index={i + 1} />); 
+            result.push(<ProjectItem key={i} index={i + 1} />);
         }
         return result;
     }

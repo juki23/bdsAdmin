@@ -2,6 +2,19 @@ import React, { Component } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
 
 class ProjectEdit extends Component {
+    onSave = (e) => {
+        e.preventDefault();
+        this.props.onSave();
+    };
+
+    onChange = (e) => {
+        this.props.onChange(e);
+    };
+
+    handleModelChange = (model) =>{
+        this.props.project.txtDescription = model;
+    };
+
     render() {
         var editorConfig = {
             toolbarButtons: ['fullscreen', '|', 'bold', 'italic', 'strikeThrough', 'underline', '|', 'paragraphFormat', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '|', 'insertImage', 'insertLink', 'insertVideo', 'insertFile', 'html'],
@@ -11,6 +24,13 @@ class ProjectEdit extends Component {
             heightMin: 100,
             heightMax: 300
         };
+
+        var { txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus, lsDistrict } = this.props.project;
+
+        var lsDistr = lsDistrict.map((district, index) => {
+            return <option key={index} value={district.id}>{district.district_name}</option>
+        });
+
         return (
             <div className="col-lg-12">
                 <div className="card">
@@ -18,19 +38,21 @@ class ProjectEdit extends Component {
                         <h4 className="m-b-0 text-white">Tạo dự án mới</h4>
                     </div>
                     <div className="card-body">
-                        <form action="#">
+                        <form onSubmit={this.onSave}>
                             <div className="form-body">
                                 <div className="row p-t-20">
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Tên dự án</label>
-                                            <input type="text" id="firstName" className="form-control" placeholder="John doe" />
+                                            <input type="text" id="firstName" className="form-control" placeholder="John doe"
+                                                name="txtName" defaultValue={txtName} onChange={this.onChange} />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Giá</label>
-                                            <input type="text" className="form-control" />
+                                            <input type="text" className="form-control"
+                                                name="txtPrice" defaultValue={txtPrice} onChange={this.onChange} />
                                         </div>
                                     </div>
                                 </div>
@@ -38,13 +60,17 @@ class ProjectEdit extends Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Địa chỉ</label>
-                                            <input type="text" className="form-control" />
+                                            <input type="text" className="form-control"
+                                                name="txtAddress" defaultValue={txtAddress} onChange={this.onChange} />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Quận, Huyện</label>
-                                            <input type="text" className="form-control" />
+                                            <select className="custom-select col-12" id="inlineFormCustomSelect" value={ddlDistrict} name="ddlDistrict" onChange={this.onChange} >
+                                                <option value={0}>Choose...</option>
+                                                {lsDistr}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -52,13 +78,17 @@ class ProjectEdit extends Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Thời gian bàn giao</label>
-                                            <input type="text" className="form-control" />
+                                            <input type="text" className="form-control"
+                                                name="txtYearComplete" defaultValue={txtYearComplete} onChange={this.onChange} />
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
-                                            <label className="control-label">Trạng thái</label>
-                                            <input type="text" className="form-control" />
+                                            <label className="control-label">&nbsp;</label>
+                                            <div className="custom-control custom-checkbox">
+                                                <input type="checkbox" className="custom-control-input" id="checkProject" name="chkStatus" defaultChecked={chkStatus} onChange={this.onChange}/>
+                                                <label className="custom-control-label" htmlFor="checkProject">Kích hoạt</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +96,8 @@ class ProjectEdit extends Component {
                                     <div className="col-md-12">
                                         <div className="form-group">
                                             <label className="control-label">Chi tiết</label>
-                                            <FroalaEditor tag='textarea' config={editorConfig} height={200} />
+                                            <FroalaEditor tag='textarea' config={editorConfig} onModelChange={this.handleModelChange}
+                                                name="txtDescription" model={txtDescription} />
                                         </div>
                                     </div>
                                 </div>

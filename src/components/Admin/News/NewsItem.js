@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class NewsItem extends Component {
+    onDelete = (id) => {
+        if (confirm('Bạn chắc chắn muốn xóa ?')) { //eslint-disable-line
+            this.props.onDelete(id);
+        }
+    }
+
     render() {
-        var { index } = this.props;
+        var { index, news } = this.props;
+        var statusNews = news.status ? "Đang hiển thị" : "Không hiển thị";
+        var labelStatus = news.status ? "info" : "danger";
         return (
             <tr>
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>
-                    Chủ đề {index}
+                    {news.title}
                 </td>
-                <td>genelia{index}@gmail.com</td>
-                <td>+{index}23 456 789</td>
-                <td>12-10-2014</td>
-                <td><span className="label label-danger">Đang xây dựng</span> </td>
+                <td><span className={`label label-${labelStatus}`}>{statusNews}</span> </td>
                 <td>
-                    <button type="button" className="btn btn-info btn-sm">
+                    <Link to={`/news/edit/${news.id}`} className="btn btn-info btn-sm">
                         <i className="fa fa-plus-circle" />
                         Cập nhật
-                    </button>
+                    </Link>
                     &nbsp;
-                    <button type="button" className="btn btn-dark btn-sm">
+                    <button type="button" className="btn btn-dark btn-sm" onClick={() => this.onDelete(news.id)}>
                         <i className="fa fa-plus-circle" />
                         Xóa
                     </button>

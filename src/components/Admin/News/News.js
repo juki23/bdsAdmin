@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import NewsList from './NewsList';
-import NewsEdit from './NewsEdit';
+import NewsActionPage from './../../../pages/NewsPage/NewsActionPage';
+
+const newsRoutes = [
+    {
+        path: "/news",
+        exact: true,
+        main: () => <NewsList />
+    },
+    {
+        path: "/news/add",
+        exact: false,
+        main: ({ history }) => <NewsActionPage history={history} />
+    },
+    {
+        path: "/news/edit/:id",
+        exact: false,
+        main: ({ match, history }) => <NewsActionPage match={match} history={history} />
+    }
+];
 
 class News extends Component {
     render() {
@@ -17,17 +35,33 @@ class News extends Component {
                                 <li className="breadcrumb-item"><Link to="/project">Trang chủ</Link></li>
                                 <li className="breadcrumb-item active"><Link to="/news">Thông tin</Link></li>
                             </ol>
-                            <Link to="/news/edit" className="btn btn-dark d-none d-lg-block m-l-15"><i className="fa fa-plus-circle" /> Tạo mới</Link>
+                            <Link to="/news/add" className="btn btn-dark d-none d-lg-block m-l-15"><i className="fa fa-plus-circle" /> Tạo mới</Link>
                         </div>
                     </div>
                 </div>
                 <div className="row">
-                    <Route path="/news" exact={true} component={NewsList} />
-                    <Route path="/news/edit" exact={false} component={NewsEdit} />
+                    {this.showContentNewsRouter(newsRoutes)}
                 </div>
             </div>
         );
     };
+
+    showContentNewsRouter = (newsRoutes) => {
+        var result = null;
+        if (newsRoutes.length > 0) {
+            result = newsRoutes.map((route, index) => {
+                return (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.main}
+                    />
+                );
+            });
+        }
+        return <Switch>{result}</Switch>;
+    }
 }
 
 export default News;

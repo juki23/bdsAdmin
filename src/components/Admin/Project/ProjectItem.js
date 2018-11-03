@@ -1,26 +1,35 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class ProjectItem extends Component {
+    onDelete = (id) => {
+        if (confirm('Bạn chắc chắn muốn xóa ?')) { //eslint-disable-line
+            this.props.onDelete(id);
+        }
+    }
+
     render() {
-        var { index } = this.props;
+        var { index, project } = this.props;
+        var statusProject = project.status ? "Đang hiển thị" : "Không hiển thị";
+        var labelStatus = project.status ? "info" : "danger";
         return (
             <tr>
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>
-                    Dự án {index}
+                    {project.project_name}
                 </td>
-                <td>genelia{index}@gmail.com</td>
-                <td>+{index}23 456 789</td>
-                <td>12-10-2014</td>
-                <td><span className="label label-danger">Đang xây dựng</span> </td>
+                <td> {project.price}</td>
+                <td> {project.address}</td>
+                <td> {project.year_complete}</td>
+                <td><span className={`label label-${labelStatus}`}> {statusProject}</span> </td>
                 <td>
-                    <button type="button" className="btn btn-info btn-sm">
-                        <i className="fa fa-plus-circle" />
+                    <Link to={`/project/edit/${project.id}`} className="btn btn-info btn-sm">
+                        <i className="fa fa-pencil" />&nbsp;
                         Cập nhật
-                    </button>
+                    </Link>
                     &nbsp;
-                    <button type="button" className="btn btn-dark btn-sm">
-                        <i className="fa fa-plus-circle" />
+                    <button type="button" className="btn btn-dark btn-sm" onClick={() => this.onDelete(project.id)}>
+                        <i className="fa fa-trash" />&nbsp;
                         Xóa
                     </button>
                 </td>
