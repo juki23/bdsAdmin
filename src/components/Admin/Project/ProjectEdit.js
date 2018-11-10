@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
+// import upload from './../../App/assets/images/upload';
 
 class ProjectEdit extends Component {
     onSave = (e) => {
@@ -11,7 +12,7 @@ class ProjectEdit extends Component {
         this.props.onChange(e);
     };
 
-    handleModelChange = (model) =>{
+    handleModelChange = (model) => {
         this.props.project.txtDescription = model;
     };
 
@@ -19,10 +20,25 @@ class ProjectEdit extends Component {
         var editorConfig = {
             toolbarButtons: ['fullscreen', '|', 'bold', 'italic', 'strikeThrough', 'underline', '|', 'paragraphFormat', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'indent', 'outdent', '|', 'insertImage', 'insertLink', 'insertVideo', 'insertFile', 'html'],
             placeholderText: 'Edit Your Content Here!',
-            charCounterCount: false,
+            language: 'vi',
+            charCounterCount: true,
+            autoFocus: true,
             height: 200,
             heightMin: 100,
-            heightMax: 300
+            heightMax: 300,
+            imageUploadURL: 'https://api.cloudinary.com/v1_1/ho-chi-minh/image/upload',
+            imageUploadParams: {
+                'api_key': '162728659627778',
+                'upload_preset': 'uhpdwp3y'
+            },
+            imageUploadMethod: 'POST',
+            events: {
+                'froalaEditor.image.uploaded': (e, editor, response) => {
+                    response = JSON.parse(response);
+                    editor.image.insert(response.secure_url, true, null, editor.image.get(), null);
+                    return false
+                }
+            }
         };
 
         var { txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus, lsDistrict } = this.props.project;
@@ -86,7 +102,7 @@ class ProjectEdit extends Component {
                                         <div className="form-group">
                                             <label className="control-label">&nbsp;</label>
                                             <div className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" id="checkProject" name="chkStatus" defaultChecked={chkStatus} onChange={this.onChange}/>
+                                                <input type="checkbox" className="custom-control-input" id="checkProject" name="chkStatus" defaultChecked={chkStatus} onChange={this.onChange} />
                                                 <label className="custom-control-label" htmlFor="checkProject">Kích hoạt</label>
                                             </div>
                                         </div>

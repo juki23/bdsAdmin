@@ -31,7 +31,7 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
             var active = match ? 'active' : '';
             return (
                 <li className={active}> 
-                    <Link className={`waves-arrow waves-effect waves-dark ${active}`} to={to} aria-expanded="false"><i className="icon-speedometer" />
+                    <Link replace className={`waves-arrow waves-effect waves-dark ${active}`} to={to} aria-expanded="false"><i className="icon-speedometer" />
                     <span className="hide-menu">{label}</span></Link>
                 </li>
             )
