@@ -7,7 +7,7 @@ class NewsList extends Component {
             <div className="col-12">
                 <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">Danh sách dự án</h4>
+                        <h4 className="card-title">Danh sách tin tức</h4>
                         <h6 className="card-subtitle" />
                         <div className="table-responsive">
                             <NewsListPage />

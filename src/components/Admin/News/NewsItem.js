@@ -21,12 +21,12 @@ class NewsItem extends Component {
                 <td><span className={`label label-${labelStatus}`}>{statusNews}</span> </td>
                 <td>
                     <Link to={`/news/edit/${news.id}`} className="btn btn-info btn-sm">
-                        <i className="fa fa-plus-circle" />
+                        <i className="fa fa-pencil" />&nbsp;
                         Cập nhật
                     </Link>
                     &nbsp;
                     <button type="button" className="btn btn-dark btn-sm" onClick={() => this.onDelete(news.id)}>
-                        <i className="fa fa-plus-circle" />
+                        <i className="fa fa-trash" />&nbsp;
                         Xóa
                     </button>
                 </td>

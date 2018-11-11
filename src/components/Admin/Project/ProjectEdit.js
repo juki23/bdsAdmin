@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
+import $ from 'jquery';
+window.$ = $;
 // import upload from './../../App/assets/images/upload';
 
 class ProjectEdit extends Component {
+    componentDidMount() {
+        // $("a[style='padding: 5px 10px;color: #FFF;text-decoration: none;background: #EF5350;display: block;font-size: 15px;']").remove();
+        // $('div[style="z-index: 9999;width: 100%; position: relative;"]').remove();
+        $('div > a[target="_blank"]').remove();
+    }
+
     onSave = (e) => {
         e.preventDefault();
         this.props.onSave();
