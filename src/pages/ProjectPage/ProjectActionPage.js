@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import ProjectEdit from './../../components/Admin/Project/ProjectEdit';
-import { actAddProjectRequest, actGetProjectRequest, actUpdateProjectRequest, actFetchDistrictRequest } from './../../actions/index';
+import { actAddProjectRequest, actGetProjectRequest, actUpdateProjectRequest } from './../../actions/index';
 import { connect } from 'react-redux';
 
 class ProjectActionPage extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -16,13 +15,12 @@ class ProjectActionPage extends Component {
             ddlDistrict: 0,
             txtYearComplete: '',
             chkStatus: false,
-            lsDistrict: []
+            create_time: ''
         };
     };
 
     componentDidMount() {
         var { match } = this.props;
-        this.props.fetchAllDistrict();
         if (match) {
             var id = match.params.id;
             this.props.onGetProject(id);
@@ -40,14 +38,9 @@ class ProjectActionPage extends Component {
                 txtDescription: itemEditing.description,
                 ddlDistrict: itemEditing.district_id,
                 txtYearComplete: itemEditing.year_complete,
-                chkStatus: itemEditing.status
+                chkStatus: itemEditing.status,
+                create_time: itemEditing.create_time,
             });
-        };
-        if (nextProps && nextProps.itemEditing) {
-            var { district } = nextProps;
-            this.setState({
-                lsDistrict: district
-            })
         };
     };
 
@@ -61,7 +54,7 @@ class ProjectActionPage extends Component {
     }
 
     onSave = () => {
-        var { id, txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus } = this.state;
+        var { id, txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus, create_time } = this.state;
         var { history } = this.props;
         var project = {
             id: id,
@@ -71,9 +64,9 @@ class ProjectActionPage extends Component {
             price: txtPrice,
             year_complete: txtYearComplete,
             district_id: parseInt(ddlDistrict),
-            status: chkStatus,
-            create_time: new Date(),
-            update_time: ""
+            status: chkStatus ? 1 : 0,
+            create_time: create_time ? create_time : new Date(),
+            update_time: null
         };
 
         if (id) {
@@ -95,16 +88,12 @@ class ProjectActionPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        itemEditing: state.projectEditing,
-        district: state.district
+        itemEditing: state.projectEditing
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchAllDistrict: () => {
-            dispatch(actFetchDistrictRequest());
-        },
         onAddProject: (project) => {
             dispatch(actAddProjectRequest(project));
         },

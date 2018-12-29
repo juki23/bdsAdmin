@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import FroalaEditor from 'react-froala-wysiwyg';
 import $ from 'jquery';
 window.$ = $;
@@ -10,16 +11,16 @@ class NewsEdit extends Component {
         $('div > a[target="_blank"]').remove();
     }
 
-    onSave =(e) => {
+    onSave = (e) => {
         e.preventDefault();
         this.props.onSave();
     };
-    
+
     onChange = (e) => {
         this.props.onChange(e);
     };
 
-    handleModelChange = (model) =>{
+    handleModelChange = (model) => {
         this.props.news.txtDescription = model;
     };
 
@@ -85,7 +86,9 @@ class NewsEdit extends Component {
                             </div>
                             <div className="form-actions">
                                 <button type="submit" className="btn btn-success"> <i className="fa fa-check" /> Lưu lại</button>&nbsp;
-                                <button type="button" className="btn btn-inverse">Thoát</button>
+                                <button type="button" className="btn btn-inverse">
+                                    <Link to="/news" >Thoát</Link>
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -1,18 +1,37 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class ContactItem extends Component {
+    onDelete = (id) => {
+        if (confirm('Bạn chắc chắn muốn xóa ?')) { //eslint-disable-line
+            this.props.onDelete(id);
+        }
+    }
+
     render() {
-        var { index } = this.props;
+        var { index, contact } = this.props;
+        var statusContact = contact.status ? "Đã gửi thông tin" : "Chưa gửi thông tin";
+        var labelStatus = contact.status ? "info" : "danger";
         return (
             <tr>
                 <td>{index}</td>
                 <td>
-                    Tên khách hàng {index}
+                    {contact.contact_name}
                 </td>
-                <td>genelia{index}@gmail.com</td>
-                <td>+{index}23 456 789</td>
-                <td>12-10-2018</td>
-                <td><span className="label label-danger">Chưa gửi thông tin</span> </td>
+                <td>{contact.phone}</td>
+                <td>{contact.email}</td>
+                <td><span className={`label label-${labelStatus}`}>{statusContact}</span> </td>
+                <td>
+                    <Link to={`/contact/edit/${contact.id}`} className="btn btn-info btn-sm">
+                        <i className="fa fa-pencil" />&nbsp;
+                        Cập nhật
+                    </Link>
+                    &nbsp;
+                    <button type="button" className="btn btn-dark btn-sm" onClick={() => this.onDelete(contact.id)}>
+                        <i className="fa fa-trash" />&nbsp;
+                        Xóa
+                    </button>
+                </td>
             </tr>
         );
     }

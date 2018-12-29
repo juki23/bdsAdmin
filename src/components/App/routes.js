@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Project from './../Admin/Project/Project';
 import Contact from './../Admin/Contact/Contact';
 import News from './../Admin/News/News';
-import User from './../Admin/User/User';
 import District from './../Admin/District/District';
-import About from './../Admin/About/About';
+import AboutActionPage from './../../pages/AboutPage/AboutActionPage';
+import UserActionPage from './../../pages/UserPage/UserActionPage';
 
 const routes = [
     {
@@ -30,7 +30,7 @@ const routes = [
     {
         path: "/user",
         exact: false,
-        main: () => <User />
+        main: () => <UserActionPage />
     },
     {
         path: "/district",
@@ -40,7 +40,7 @@ const routes = [
     {
         path: "/about",
         exact: false,
-        main: () => <About />
+        main: () => <AboutActionPage />
     }
 ];
 

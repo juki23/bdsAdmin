@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
 import NewsItem from './../../components/Admin/News/NewsItem';
+import NewsList from './../../components/Admin/News/NewsList';
 import { connect } from 'react-redux';
-import { actFetchNewsRequest, actDeleteNewsRequest } from './../../actions/index';
+import { actFetchNewsPageRequest, actDeleteNewsRequest } from './../../actions/index';
+
+const paging = {
+    currentPage: 1,
+    pageSize: 5
+}
 
 class NewsListPage extends Component {
-
     componentDidMount() {
-        this.props.fetchAllNews();
+        this.props.fetchAllNewsPage(paging);
     };
 
     onDelete = (id) => {
         this.props.onDeleteNews(id);
     };
 
+    onChangePage = (page) => {
+        paging.currentPage = page;
+        this.props.fetchAllNewsPage(paging);
+    }
+
     render() {
         var { news } = this.props;
+        var totalItem = news.length > 0 ? news[0].sl : 0;
         return (
-            <table id="demo-foo-addrow" className="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size={7}>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tiêu đề</th>
-                        <th>Trạng thái</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.showNews(news)}
-                </tbody>
-            </table>
+            <NewsList totalItem={totalItem} onChangePage={this.onChangePage} paging={paging}>
+                {this.showNews(news)}
+            </NewsList>
         );
     }
 
@@ -40,7 +41,7 @@ class NewsListPage extends Component {
                     <NewsItem
                         key={index}
                         news={ne}
-                        index={index}
+                        index={((paging.currentPage - 1) * paging.pageSize) + (index + 1)}
                         onDelete={this.onDelete}
                     />
                 );
@@ -59,8 +60,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchAllNews: () => {
-            dispatch(actFetchNewsRequest());
+        fetchAllNewsPage: (paging) => {
+            dispatch(actFetchNewsPageRequest(paging));
         },
         onDeleteNews: (id) => {
             dispatch(actDeleteNewsRequest(id));

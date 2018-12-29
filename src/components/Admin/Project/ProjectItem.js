@@ -14,13 +14,13 @@ class ProjectItem extends Component {
         var labelStatus = project.status ? "info" : "danger";
         return (
             <tr>
-                <td>{index + 1}</td>
+                <td>{index}</td>
                 <td>
                     {project.project_name}
                 </td>
                 <td> {project.price}</td>
-                <td> {project.address}</td>
                 <td> {project.year_complete}</td>
+                <td> {project.district_name}</td>
                 <td><span className={`label label-${labelStatus}`}> {statusProject}</span> </td>
                 <td>
                     <Link to={`/project/edit/${project.id}`} className="btn btn-info btn-sm">

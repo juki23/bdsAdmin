@@ -12,6 +12,7 @@ class DistrictActionPage extends Component {
             id: '',
             txtName: '',
             chkStatus: false,
+            create_time: '',
             modal: false
         };
         this.onToggle = this.onToggle.bind(this);
@@ -23,7 +24,8 @@ class DistrictActionPage extends Component {
             this.setState({
                 id: itemEditing.id,
                 txtName: itemEditing.district_name,
-                chkStatus: itemEditing.status
+                chkStatus: itemEditing.status,
+                create_time : itemEditing.create_time
             });
         }
     };
@@ -35,7 +37,7 @@ class DistrictActionPage extends Component {
             chkStatus: false,
             modal: !this.state.modal
         });
-        if (id) {
+        if (typeof id === "number") {
             this.props.onGetDistrict(id);
         };
     };
@@ -51,15 +53,14 @@ class DistrictActionPage extends Component {
 
     onSave = (e) => {
         e.preventDefault();
-        var { id, txtName, chkStatus } = this.state;
-        // var { history } = this.props;
+        var { id, txtName, chkStatus, create_time } = this.state;
 
         var district = {
             id: id,
             district_name: txtName,
-            status: chkStatus,
-            create_time: new Date(),
-            update_time: ""
+            status: chkStatus ? 1 : 0,
+            create_time: create_time ? create_time : new Date(),
+            update_time: null
         };
 
         if (id) {

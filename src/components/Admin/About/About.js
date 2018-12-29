@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 
 class About extends Component {
+    onSave =(e) => {
+        e.preventDefault();
+        this.props.onSave();
+    };
+    
+    onChange = (e) => {
+        this.props.onChange(e);
+    };
+
     render() {
+        var { txtTitle, txtLocation, txtPhone, txtEmail, txtAddress } = this.props.about;
         return (
             <div className="container-fluid">
                 <div className="row page-titles">
@@ -24,40 +34,49 @@ class About extends Component {
                                 <h4 className="m-b-0 text-white">Thông tin</h4>
                             </div>
                             <div className="card-body">
-                                <form action="#">
+                                <form onSubmit={this.onSave}>
                                     <div className="form-body">
                                         <div className="row p-t-20">
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label className="control-label">Họ và Tên</label>
-                                                    <input type="text" id="firstName" className="form-control" placeholder="John doe" />
-                                                    <small className="form-control-feedback"> This is inline help </small> </div>
+                                                    <label className="control-label">Tiêu đề</label>
+                                                    <input type="text" className="form-control" name="txtTitle" defaultValue={txtTitle} onChange={this.onChange} />
+                                                    {/* <small className="form-control-feedback"> This is inline help </small> */}
+                                                </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                    <label className="control-label">Email</label>
-                                                    <input type="text" id="lastName" className="form-control" placeholder="exam@gamil.com" />
-                                                    <small className="form-control-feedback"> This field has error. </small> </div>
+                                                    <label className="control-label">Vị trí</label>
+                                                    <input type="text" className="form-control" name="txtLocation" defaultValue={txtLocation} onChange={this.onChange} />
+                                                    {/* <small className="form-control-feedback"> This field has error. </small> */}
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <label className="control-label">Số điện thoại</label>
-                                                    <input type="text" className="form-control" placeholder="09012345678" />
+                                                    <input type="text" className="form-control" name="txtPhone" defaultValue={txtPhone} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
+                                                    <label className="control-label">Email</label>
+                                                    <input type="text" className="form-control" name="txtEmail" defaultValue={txtEmail} onChange={this.onChange} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <div className="form-group">
                                                     <label className="control-label">Địa chỉ</label>
-                                                    <textarea type="text" className="form-control" placeholder="TP Hồ Chí Minh" />
+                                                    <textarea type="text" className="form-control" name="txtAddress" value={txtAddress} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="form-actions">
-                                        <button type="submit" className="btn btn-success"> <i className="fa fa-check" /> Lưu lại</button>&nbsp;
-                                        <button type="button" className="btn btn-inverse">Thoát</button>
+                                        <button type="submit" className="btn btn-success"> <i className="fa fa-check" /> Lưu lại</button>
                                     </div>
                                 </form>
                             </div>

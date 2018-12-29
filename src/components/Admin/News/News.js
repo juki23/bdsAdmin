@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
-import NewsList from './NewsList';
+import NewsListPage from './../../../pages/NewsPage/NewsListPage';
 import NewsActionPage from './../../../pages/NewsPage/NewsActionPage';
 
 const newsRoutes = [
     {
         path: "/news",
         exact: true,
-        main: () => <NewsList />
+        main: () => <NewsListPage />
     },
     {
         path: "/news/add",

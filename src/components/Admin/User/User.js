@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 
 class User extends Component {
+    onSave = (e) => {
+        e.preventDefault();
+        this.props.onSave();
+    };
+
+    onChange = (e) => {
+        this.props.onChange(e);
+    };
+
     render() {
+        var { txtUsername, txtPassword, txtPasswordConfirm } = this.props.user;
         return (
             <div className="container-fluid">
                 <div className="row page-titles">
@@ -24,19 +34,19 @@ class User extends Component {
                                 <h4 className="m-b-0 text-white">Đổi mật khẩu</h4>
                             </div>
                             <div className="card-body">
-                                <form action="#">
+                                <form onSubmit={this.onSave}>
                                     <div className="form-body">
                                         <div className="row p-t-20">
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <label className="control-label">Tên tài khoản</label>
-                                                    <input type="text" id="firstName" className="form-control" placeholder="John doe" />
+                                                    <input type="text" className="form-control" name="txtUsername" defaultValue={txtUsername} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <label className="control-label">Mật khẩu</label>
-                                                    <input type="password" className="form-control" />
+                                                    <input type="password" className="form-control" name="txtPassword" defaultValue={txtPassword} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                         </div>
@@ -46,14 +56,13 @@ class User extends Component {
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <label className="control-label">Xác nhận mật khẩu</label>
-                                                    <input type="password" className="form-control" />
+                                                    <input type="password" className="form-control" name="txtPasswordConfirm" defaultValue={txtPasswordConfirm} onChange={this.onChange} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="form-actions">
-                                        <button type="submit" className="btn btn-success"> <i className="fa fa-check" /> Lưu lại</button>&nbsp;
-                                        <button type="button" className="btn btn-inverse">Thoát</button>
+                                        <button type="submit" className="btn btn-success"> <i className="fa fa-check" /> Thay đổi mật khẩu</button>&nbsp;
                                     </div>
                                 </form>
                             </div>

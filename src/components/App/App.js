@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-// import Menu from '../Menu/Menu';
 import routes from './routes';
 import { Switch, Route, Link, HashRouter } from 'react-router-dom';
+// import $ from 'jquery';
+// window.$ = $;
 
 import logoIcon from './assets/images/logo-icon.png';
 import logoLightIcon from './assets/images/logo-light-icon.png';
@@ -10,29 +11,30 @@ import logoLightText from './assets/images/logo-light-text.png';
 import user2 from './assets/images/users/2.jpg';
 
 import './assets/css/style.min.css';
-
 import './assets/node_modules/morrisjs/morris.css';
 import './assets/node_modules/c3-master/c3.min.css';
 import './assets/css/pages/dashboard1.css';
 
 import './assets/js/waves.js';
-import './assets/js/sidebarmenu.js';
+// import './assets/js/sidebarmenu.js';
+import './assets/js/perfect-scrollbar.jquery.min.js';
 import './assets/js/custom.min.js';
-import './assets/node_modules/morrisjs/morris.min.js';
-import './assets/node_modules/jquery-sparkline/jquery.sparkline.min.js';
-import './assets/js/jquery.webticker.min.js';
-
-import './assets/js/fastclick.js';
-import './assets/js/web-ticker.js';
+// import './assets/node_modules/morrisjs/morris.min.js';
+// import './assets/node_modules/jquery-sparkline/jquery.sparkline.min.js';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import './assets/js/jquery.webticker.min.js';
+// import './assets/js/fastclick.js';
+// import './assets/js/web-ticker.js';
 
 const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
     return (
         <Route path={to} exact={activeOnlyWhenExact} children={({ match }) => {
             var active = match ? 'active' : '';
             return (
-                <li className={active}> 
+                <li className={active}>
                     <Link replace className={`waves-arrow waves-effect waves-dark ${active}`} to={to} aria-expanded="false"><i className="icon-speedometer" />
-                    <span className="hide-menu">{label}</span></Link>
+                        <span className="hide-menu">{label}</span></Link>
                 </li>
             )
         }} />
@@ -40,9 +42,28 @@ const MenuLink = ({ label, to, activeOnlyWhenExact }) => {
 }
 
 class App extends Component {
+    showContentMenus = (routes) => {
+        var result = null;
+        if (routes.length > 0) {
+            result = routes.map((route, index) => {
+                return (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        exact={route.exact}
+                        component={route.main}
+                    />
+                );
+            });
+        }
+        return <Switch>{result}</Switch>;
+    }
+
+
     render() {
         return (
             <HashRouter className="fixed-layout skin-megna-dark">
+                {/* <ToastContainer /> */}
                 {/* <div className="preloader">
                     <div className="loader">
                         <div className="loader__figure" />
@@ -50,6 +71,7 @@ class App extends Component {
                     </div>
                 </div> */}
                 <div id="main-wrapper">
+                    <ToastContainer />
                     <header className="topbar">
                         <nav className="navbar top-navbar navbar-expand-md navbar-dark">
                             <nav className="navbar top-navbar navbar-expand-md navbar-dark">
@@ -96,12 +118,12 @@ class App extends Component {
                             </div>
                             <nav className="sidebar-nav">
                                 <ul id="sidebarnav">
-                                    <MenuLink to="/project" label="Dự Án" activeOnlyWhenExact={false}/>
-                                    <MenuLink to="/user" label="Tài Khoản" activeOnlyWhenExact={false}/>
-                                    <MenuLink to="/news" label="Tin Tức" activeOnlyWhenExact={false}/>
-                                    <MenuLink to="/district" label="Quận, Huyện" activeOnlyWhenExact={false}/>
-                                    <MenuLink to="/contact" label="Liên Hệ" activeOnlyWhenExact={false}/>
-                                    <MenuLink to="/about" label="Giới Thiệu" activeOnlyWhenExact={false}/>
+                                    <MenuLink to="/project" label="Dự Án" activeOnlyWhenExact={false} />
+                                    <MenuLink to="/user" label="Tài Khoản" activeOnlyWhenExact={false} />
+                                    <MenuLink to="/news" label="Tin Tức" activeOnlyWhenExact={false} />
+                                    <MenuLink to="/district" label="Quận, Huyện" activeOnlyWhenExact={false} />
+                                    <MenuLink to="/contact" label="Liên Hệ" activeOnlyWhenExact={false} />
+                                    <MenuLink to="/about" label="Giới Thiệu" activeOnlyWhenExact={false} />
                                 </ul>
                             </nav>
                         </div>
@@ -112,7 +134,7 @@ class App extends Component {
                         {/* End Content */}
                     </div>
                     <footer className="footer">
-                        © 2018 by themedesigner.in
+                        © 2018 by test.in
                     </footer>
                 </div>
             </HashRouter>
@@ -120,32 +142,17 @@ class App extends Component {
         );
     };
 
-    showMenu = (menus) => {
-        var result = null
-        if (menus.length > 0) {
-            result = menus.map((menu,index) => {
-                return <MenuLink key={index} to={menu.to} label={menu.name} activeOnlyWhenExact={menu.exact} />
-            })  
-        };
-        return result;
-    }
+    // showMenu = (menus) => {
+    //     var result = null
+    //     if (menus.length > 0) {
+    //         result = menus.map((menu, index) => {
+    //             return <MenuLink key={index} to={menu.to} label={menu.name} activeOnlyWhenExact={menu.exact} />
+    //         })
+    //     };
+    //     return result;
+    // }
 
-    showContentMenus = (routes) => {
-        var result = null;
-        if (routes.length > 0) {
-            result = routes.map((route, index) => {
-                return (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        exact={route.exact}
-                        component={route.main}
-                    />
-                );
-            });
-        }
-        return <Switch>{result}</Switch>;
-    }
+    
 
 }
 

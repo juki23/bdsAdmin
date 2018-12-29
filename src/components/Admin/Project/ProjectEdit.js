@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import FroalaEditor from 'react-froala-wysiwyg';
+import { actFetchDistrictRequest } from './../../../actions/index';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import $ from 'jquery';
 window.$ = $;
 // import upload from './../../App/assets/images/upload';
@@ -9,6 +13,7 @@ class ProjectEdit extends Component {
         // $("a[style='padding: 5px 10px;color: #FFF;text-decoration: none;background: #EF5350;display: block;font-size: 15px;']").remove();
         // $('div[style="z-index: 9999;width: 100%; position: relative;"]').remove();
         $('div > a[target="_blank"]').remove();
+        this.props.fetchAllDistrict();
     }
 
     onSave = (e) => {
@@ -49,10 +54,10 @@ class ProjectEdit extends Component {
             }
         };
 
-        var { txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus, lsDistrict } = this.props.project;
-
-        var lsDistr = lsDistrict.map((district, index) => {
-            return <option key={index} value={district.id}>{district.district_name}</option>
+        var { txtName, txtAddress, txtDescription, txtPrice, txtYearComplete, ddlDistrict, chkStatus } = this.props.project;
+        var {district} = this.props;
+        var lsDistr = district.map((distr, index) => {
+            return <option key={index} value={distr.id}>{distr.district_name}</option>
         });
 
         return (
@@ -68,7 +73,7 @@ class ProjectEdit extends Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label className="control-label">Tên dự án</label>
-                                            <input type="text" id="firstName" className="form-control" placeholder="John doe"
+                                            <input type="text" id="firstName" className="form-control"
                                                 name="txtName" defaultValue={txtName} onChange={this.onChange} />
                                         </div>
                                     </div>
@@ -128,7 +133,9 @@ class ProjectEdit extends Component {
                             </div>
                             <div className="form-actions">
                                 <button type="submit" className="btn btn-success"><i className="fa fa-check" /> Lưu lại</button>&nbsp;
-                                <button type="button" className="btn btn-inverse">Thoát</button>
+                                <button type="button" className="btn btn-inverse">
+                                    <Link to="/project" >Thoát</Link>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -138,4 +145,18 @@ class ProjectEdit extends Component {
     }
 }
 
-export default ProjectEdit;
+const mapStateToProps = state => {
+    return {
+        district: state.district
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchAllDistrict: () => {
+            dispatch(actFetchDistrictRequest());
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectEdit);

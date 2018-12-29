@@ -14,7 +14,7 @@ class NewsItem extends Component {
         var labelStatus = news.status ? "info" : "danger";
         return (
             <tr>
-                <td>{index + 1}</td>
+                <td>{index}</td>
                 <td>
                     {news.title}
                 </td>

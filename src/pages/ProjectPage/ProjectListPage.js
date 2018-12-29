@@ -1,22 +1,33 @@
 import React, { Component } from 'react';
-import ProjectList from './../../components/Admin/project/ProjectList';
-import ProjectItem from './../../components/Admin/project/ProjectItem';
+import ProjectList from './../../components/Admin/Project/ProjectList';
+import ProjectItem from './../../components/Admin/Project/ProjectItem';
 import { connect } from 'react-redux';
-import { actFetchProjectRequest, actDeleteProjectRequest } from './../../actions/index';
+import { actFetchProjectPageRequest, actDeleteProjectRequest } from './../../actions/index';
+
+const paging = {
+    currentPage: 1,
+    pageSize: 5
+}
 
 class ProjectListPage extends Component {
     componentDidMount() {
-        this.props.fetchAllProject();
+        this.props.fetchAllProjectPage(paging);
     }
 
     onDelete = (id) => {
         this.props.onDeleteProject(id);
     }
 
+    onChangePage = (page) => {
+        paging.currentPage = page;
+        this.props.fetchAllProjectPage(paging);
+    }
+
     render() {
         var { project } = this.props;
+        var totalItem = project.length > 0 ? project[0].sl : 0;
         return (
-            <ProjectList>
+            <ProjectList totalItem={totalItem} onChangePage={this.onChangePage} paging={paging}>
                 {this.showProject(project)}
             </ProjectList>
         );
@@ -30,7 +41,7 @@ class ProjectListPage extends Component {
                     <ProjectItem
                         key={index}
                         project={proj}
-                        index={index}
+                        index={((paging.currentPage - 1) * paging.pageSize) + (index + 1)}
                         onDelete={this.onDelete}
                     />
                 );
@@ -49,8 +60,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        fetchAllProject: () => {
-            dispatch(actFetchProjectRequest());
+        fetchAllProjectPage: (paging) => {
+            dispatch(actFetchProjectPageRequest(paging));
         },
         onDeleteProject: (id) => {
             dispatch(actDeleteProjectRequest(id));

@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import DistrictList from './../../components/Admin/District/DistrictList';
 import DistrictItem from './../../components/Admin/District/DistrictItem';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { actFetchDistrictRequest } from './../../actions/index';
 
 class DistrictListPage extends Component {
-
+    
     componentDidMount() {
         this.props.fetchAllDistrict();
     }
-
-    // onDelete = (id) => {
-    //     this.props.onDeleteProduct(id);
-    // }
 
     render() {
         var { district } = this.props;

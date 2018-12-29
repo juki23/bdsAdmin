@@ -51,10 +51,10 @@ class NewsActionPage extends Component {
         var news = {
             id: id,
             title : txtTitle,
-            status : chkStatus,
+            status : chkStatus ? 1 : 0,
             description : txtDescription,
             create_time: new Date(),
-            update_time: ""
+            update_time: null
         };
 
         if (id) {
